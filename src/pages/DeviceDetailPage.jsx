@@ -290,14 +290,14 @@ export default function DeviceDetailPage() {
               </p>
             </div>
 
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={appSearch}
                 onChange={(e) => setAppSearch(e.target.value)}
                 placeholder="Search apps..."
-                className="pl-9 pr-4 py-2 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full sm:w-56 pl-9 pr-4 py-2 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
           </div>

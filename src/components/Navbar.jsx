@@ -11,7 +11,8 @@ import {
   Smartphone, 
   LayoutDashboard, 
   Settings,
-  Sparkles
+  Sparkles,
+  Download
 } from 'lucide-react';
 
 export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
@@ -66,25 +67,25 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
             </Link>
           </div>
 
-          {/* Center / Pairing Code Badge */}
+          {/* Center / Pairing Code Badge (Visible on md+ screens to preserve mobile header space) */}
           {adminProfile?.uniqueCode && (
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <div className="flex items-center gap-2 sm:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-950/60 border border-indigo-500/30 shadow-inner">
-                <div className="hidden sm:flex flex-col text-right">
+                <div className="flex flex-col text-right">
                   <span className="text-[10px] uppercase font-bold text-indigo-300 tracking-wider flex items-center gap-1 justify-end">
                     <Sparkles className="w-3 h-3 text-indigo-400 animate-pulse" />
                     Admin Pairing Code
                   </span>
-                  <span className="text-xs text-slate-400">Enter this code on child device</span>
+                  <span className="text-[11px] text-slate-400">Enter code on child device</span>
                 </div>
                 
-                <div className="flex items-center gap-2 bg-slate-900/90 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg border border-indigo-400/20">
-                  <span className="font-['JetBrains_Mono',monospace] font-bold text-base sm:text-lg text-indigo-300 tracking-wider">
+                <div className="flex items-center gap-2 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-indigo-400/20">
+                  <span className="font-['JetBrains_Mono',monospace] font-bold text-base text-indigo-300 tracking-wider">
                     {adminProfile.uniqueCode}
                   </span>
                   <button
                     onClick={handleCopyCode}
-                    className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition relative"
+                    className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition"
                     title="Copy pairing code"
                   >
                     {copied ? (
@@ -96,7 +97,7 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
                 </div>
 
                 {copied && (
-                  <span className="text-xs font-semibold text-emerald-400 animate-fade-in hidden md:inline">
+                  <span className="text-xs font-semibold text-emerald-400 animate-fade-in">
                     Copied!
                   </span>
                 )}
@@ -105,7 +106,17 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
           )}
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <a
+              href={`${import.meta.env.BASE_URL}ScreenGuardChild.apk`}
+              download="ScreenGuardChild.apk"
+              className="flex items-center gap-1.5 px-2.5 py-2 sm:px-3 text-xs font-bold text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 rounded-xl transition shadow-sm"
+              title="Download ScreenGuardChild.apk"
+            >
+              <Download className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="hidden sm:inline">Download App</span>
+            </a>
+
             <div className="hidden md:flex flex-col text-right">
               <span className="text-xs font-medium text-slate-300 truncate max-w-[150px]">
                 {currentUser?.email}
@@ -115,10 +126,10 @@ export default function Navbar({ onToggleMobileMenu, isMobileMenuOpen }) {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-900/80 hover:bg-red-500/10 hover:border-red-500/30 border border-slate-800 rounded-xl transition group"
+              className="flex items-center gap-1.5 px-2.5 py-2 sm:px-3 text-xs font-medium text-slate-300 hover:text-white bg-slate-900/80 hover:bg-red-500/10 hover:border-red-500/30 border border-slate-800 rounded-xl transition group"
               title="Sign Out"
             >
-              <LogOut className="w-4 h-4 text-slate-400 group-hover:text-red-400 transition" />
+              <LogOut className="w-4 h-4 text-slate-400 group-hover:text-red-400 transition shrink-0" />
               <span className="hidden sm:inline group-hover:text-red-300">Sign Out</span>
             </button>
           </div>

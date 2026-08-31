@@ -168,18 +168,18 @@ export default function SecurityPinManager({ device, deviceId }) {
 
           {/* Large Digit Display */}
           <div className="py-6 flex flex-col items-center justify-center gap-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-3 flex-wrap max-w-full">
               {(showPin ? currentPin : '••••••').split('').map((char, idx) => (
                 <div 
                   key={idx}
-                  className="w-12 h-14 rounded-2xl bg-slate-950/90 border border-indigo-500/30 flex items-center justify-center text-2xl font-black text-indigo-300 shadow-inner shadow-indigo-950/50"
+                  className="w-10 h-12 sm:w-12 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-indigo-500/30 flex items-center justify-center text-xl sm:text-2xl font-black text-indigo-300 shadow-inner shadow-indigo-950/50"
                 >
                   {char}
                 </div>
               ))}
             </div>
 
-            <p className="text-xs text-slate-400 text-center max-w-md">
+            <p className="text-xs text-slate-400 text-center max-w-md px-2">
               Enter this code directly on the child device whenever prompted by the <strong>ScreenGuard Lock Screen</strong> to allow maintenance or legitimate uninstallation.
             </p>
           </div>

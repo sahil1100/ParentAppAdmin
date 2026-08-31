@@ -18,7 +18,10 @@ import {
   Sparkles,
   QrCode,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  Download,
+  ArrowDownToLine,
+  SmartphoneNfc
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -96,7 +99,20 @@ export default function DashboardPage() {
               </span>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={`${import.meta.env.BASE_URL}ScreenGuardChild.apk`}
+                download="ScreenGuardChild.apk"
+                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-900/30 transition"
+                title="Download ScreenGuardChild.apk (53 MB)"
+              >
+                <Download className="w-4 h-4" />
+                <div className="flex flex-col text-left leading-tight">
+                  <span>Download Child APK</span>
+                  <span className="text-[9px] text-emerald-200 font-normal">v1.0 • 53 MB</span>
+                </div>
+              </a>
+
               <button
                 onClick={handleCopyCode}
                 className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-600/30 transition"
@@ -108,7 +124,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setShowQRModal(true)}
                 className="flex items-center justify-center p-3 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl border border-slate-700 transition"
-                title="Show pairing QR Code"
+                title="Show pairing QR Code & setup"
               >
                 <QrCode className="w-5 h-5" />
               </button>
@@ -161,16 +177,16 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             {/* Search Input */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-none">
               <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search devices..."
-                className="pl-9 pr-4 py-2 bg-slate-900/80 border border-slate-800 rounded-xl text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+                className="w-full sm:w-56 pl-9 pr-4 py-2 bg-slate-900/80 border border-slate-800 rounded-xl text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -178,7 +194,7 @@ export default function DashboardPage() {
             <button
               onClick={handleSeedDemo}
               disabled={seeding}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-indigo-400 border border-slate-800 rounded-xl transition"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-indigo-400 border border-slate-800 rounded-xl transition"
               title="Add sample device with installed apps and limits for demo"
             >
               <PlusCircle className="w-3.5 h-3.5" />
@@ -222,24 +238,58 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* QR Code pairing modal */}
+      {/* Setup & QR Code pairing modal */}
       {showQRModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-          <div className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center space-y-4">
-            <h3 className="font-bold text-lg text-white">Device Pairing QR</h3>
-            <p className="text-xs text-slate-400">
-              Scan from child's device or enter the code manually:
-            </p>
-            <div className="p-4 bg-white rounded-2xl inline-block shadow-lg">
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${adminProfile?.uniqueCode}`}
-                alt="Pairing QR Code"
-                className="w-44 h-44 mx-auto"
-              />
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 text-center space-y-4 shadow-2xl">
+            <h3 className="font-bold text-lg text-white">Pair Child Device</h3>
+            
+            {/* Step 1: APK Download */}
+            <div className="p-3 bg-slate-950/80 rounded-2xl border border-slate-800 flex items-center justify-between text-left">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                  1
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white">Download Child APK</div>
+                  <div className="text-[10px] text-slate-400">Install ScreenGuard on child phone</div>
+                </div>
+              </div>
+              <a
+                href={`${import.meta.env.BASE_URL}ScreenGuardChild.apk`}
+                download="ScreenGuardChild.apk"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Get APK</span>
+              </a>
             </div>
-            <div className="font-mono text-2xl font-black text-indigo-400 tracking-widest">
-              {adminProfile?.uniqueCode}
+
+            {/* Step 2 & 3: Code & QR */}
+            <div className="p-3 bg-slate-950/80 rounded-2xl border border-slate-800 space-y-3">
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                  2
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white">Enter Pairing Code in App</div>
+                  <div className="text-[10px] text-slate-400">Open ScreenGuard on child phone & enter:</div>
+                </div>
+              </div>
+
+              <div className="p-3 bg-white rounded-xl inline-block shadow">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${adminProfile?.uniqueCode}`}
+                  alt="Pairing QR Code"
+                  className="w-32 h-32 mx-auto"
+                />
+              </div>
+
+              <div className="font-['JetBrains_Mono',monospace] text-2xl font-black text-indigo-300 tracking-widest bg-slate-900/90 py-2 rounded-xl border border-indigo-500/30">
+                {adminProfile?.uniqueCode || '------'}
+              </div>
             </div>
+
             <button
               onClick={() => setShowQRModal(false)}
               className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition"
