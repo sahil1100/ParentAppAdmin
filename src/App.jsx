@@ -73,7 +73,7 @@ function MainRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/ScreenGuard">
       <AuthProvider>
         <MainRoutes />
       </AuthProvider>
